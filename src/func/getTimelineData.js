@@ -1,5 +1,4 @@
 export function getTimelineData(timeline, socialMedia) {
-  console.log(socialMedia);
   let positive = {
     data: [],
     name: "positive",

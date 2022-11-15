@@ -12,17 +12,24 @@ import Card from "./ui/Card";
 import { barlayout, lineLayout } from "./func/layout";
 
 export default function App() {
-  const [twitterData, setTwitterData] = useState([]);
-  const [twitterLinedata, settwtLinedata] = useState([]);
-  const [twitterbarLayout, setTwitterbarLayout] = useState({});
-  const [twitterlineLayout, settwtlinelayout] = useState({});
-  const [facebookData, setFacebookData] = useState([]);
-  const [facebookLinedata, setfbLinedata] = useState([]);
-  const [facebookbarLayout, setfacebookbarLayout] = useState({});
-  const [facebooklineLayout, setfblinelayout] = useState({});
+  const [twitterData, setTwitterData] = useState({
+    twitterBarData: [],
+    twitterLineData: [],
+    twitterBarLayout: {},
+    twitterLineLayout: {},
+  });
 
-  console.log(twitterLinedata, facebookLinedata);
+  const [facebookData, setFacebookData] = useState({
+    facebookBarData: [],
+    facebookLineData: [],
+    facebookBarLayout: {},
+    facebookLineLayout: {},
+  });
+
+  console.log(twitterData, facebookData);
+
   useEffect(() => {
+    console.log("twitternshbdvcj");
     const allTwitterData = getTimelineData(
       mytwitterData.stats.twitter.timelineStats.timeline,
       "twitter"
@@ -37,33 +44,50 @@ export default function App() {
     const facebookbardata = getBarChartData(allFacebookData);
     const facebooklinedata = getLineChartData(allFacebookData);
 
-    setTwitterData(twitterbardata);
-    settwtLinedata(twitterLinedata);
-    setFacebookData(facebookbardata);
-    setfbLinedata(facebooklinedata);
-
     const twitterbarlayout = barlayout("Twitter Sentiment Categories Timeline");
     const facebookbarLayout = barlayout(
       "Facebook Sentiment Categories Timeline"
     );
     const twitterLinelayout = lineLayout("Twitter Mean Sentiment Timeline");
-    const fbLinelayout = lineLayout("Facebook Mean Sentiment Timeline");
+    const facebooklinelayout = lineLayout("Facebook Mean Sentiment Timeline");
 
-    setTwitterbarLayout(twitterbarlayout);
-    setfacebookbarLayout(facebookbarLayout);
-    settwtlinelayout(twitterLinelayout);
-    setfblinelayout(fbLinelayout);
+    setTwitterData({
+      twitterBarData: twitterbardata,
+      twitterLineData: twitterLinedata,
+      twitterBarLayout: twitterbarlayout,
+      twitterLineLayout: twitterLinelayout,
+    });
+
+    setFacebookData({
+      facebookBarData: facebookbardata,
+      facebookLineData: facebooklinedata,
+      facebookBarLayout: facebookbarLayout,
+      facebookLineLayout: facebooklinelayout,
+    });
   }, []);
 
+  console.log("last");
   return (
     <div className="App">
       <Card>
-        <Chart data={twitterData} chartlayout={twitterbarLayout} />
-        <Chart data={twitterLinedata} chartlayout={twitterlineLayout} />
+        <Chart
+          data={twitterData.twitterBarData}
+          chartlayout={twitterData.twitterBarLayout}
+        />
+        <Chart
+          data={twitterData.twitterLineData}
+          chartlayout={twitterData.twitterLineLayout}
+        />
       </Card>
       <Card>
-        <Chart data={facebookData} chartlayout={facebookbarLayout} />
-        <Chart data={facebookLinedata} chartlayout={facebooklineLayout} />
+        <Chart
+          data={facebookData.facebookBarData}
+          chartlayout={facebookData.facebookBarLayout}
+        />
+        <Chart
+          data={facebookData.facebookLineData}
+          chartlayout={facebookData.facebookLineLayout}
+        />
       </Card>
     </div>
   );
