@@ -1,35 +1,28 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState, useEffect, Fragment } from "react";
 import mytwitterData from "./json/twitter_api_response (2).json";
 import facebookSentiment from "./json/facebook_sentiment.json";
-import Chart from "./ui/Chart";
-import {
-  getBarChartData,
-  getLineChartData,
-  getTimelineData,
-} from "./func/getTimelineData";
-import Card from "./ui/Card";
+import { getTimelineData } from "./func/getTimelineData";
+import { getBarChartData } from "./func/BarData";
+import { getLineChartData } from "./func/LineData";
 import { barlayout, lineLayout } from "./func/layout";
+import SocialChart from "./ui/SocialChart";
 
 export default function App() {
   const [twitterData, setTwitterData] = useState({
-    twitterBarData: [],
-    twitterLineData: [],
-    twitterBarLayout: {},
-    twitterLineLayout: {},
+    barData: [],
+    lineData: [],
+    barLayout: {},
+    lineLayout: {},
   });
 
   const [facebookData, setFacebookData] = useState({
-    facebookBarData: [],
-    facebookLineData: [],
-    facebookBarLayout: {},
-    facebookLineLayout: {},
+    barData: [],
+    lineData: [],
+    barLayout: {},
+    lineLayout: {},
   });
 
-  console.log(twitterData, facebookData);
-
   useEffect(() => {
-    console.log("twitternshbdvcj");
     const allTwitterData = getTimelineData(
       mytwitterData.stats.twitter.timelineStats.timeline,
       "twitter"
@@ -52,43 +45,24 @@ export default function App() {
     const facebooklinelayout = lineLayout("Facebook Mean Sentiment Timeline");
 
     setTwitterData({
-      twitterBarData: twitterbardata,
-      twitterLineData: twitterLinedata,
-      twitterBarLayout: twitterbarlayout,
-      twitterLineLayout: twitterLinelayout,
+      barData: twitterbardata,
+      lineData: twitterLinedata,
+      barLayout: twitterbarlayout,
+      lineLayout: twitterLinelayout,
     });
 
     setFacebookData({
-      facebookBarData: facebookbardata,
-      facebookLineData: facebooklinedata,
-      facebookBarLayout: facebookbarLayout,
-      facebookLineLayout: facebooklinelayout,
+      barData: facebookbardata,
+      lineData: facebooklinedata,
+      barLayout: facebookbarLayout,
+      lineLayout: facebooklinelayout,
     });
   }, []);
 
-  console.log("last");
   return (
-    <div className="App">
-      <Card>
-        <Chart
-          data={twitterData.twitterBarData}
-          chartlayout={twitterData.twitterBarLayout}
-        />
-        <Chart
-          data={twitterData.twitterLineData}
-          chartlayout={twitterData.twitterLineLayout}
-        />
-      </Card>
-      <Card>
-        <Chart
-          data={facebookData.facebookBarData}
-          chartlayout={facebookData.facebookBarLayout}
-        />
-        <Chart
-          data={facebookData.facebookLineData}
-          chartlayout={facebookData.facebookLineLayout}
-        />
-      </Card>
-    </div>
+    <>
+      <SocialChart data={twitterData} />
+      <SocialChart data={facebookData} />
+    </>
   );
 }
