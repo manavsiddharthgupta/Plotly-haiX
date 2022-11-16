@@ -1,0 +1,5 @@
+.outercard {
+  border-bottom: 2px solid #30363d;
+  display: flex;
+  justify-content: space-around;
+}
