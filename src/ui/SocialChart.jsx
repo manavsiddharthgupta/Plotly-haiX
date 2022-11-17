@@ -1,7 +1,12 @@
 import Card from "./Card";
 import Chart from "./Chart";
+import MapChart from "./MapChart";
 import OuterCard from "./OuterCard";
 const SocialChart = (props) => {
+  const combineData = [...props.data.barData, ...props.data.lineData];
+  console.log(props.data.barLayout);
+  const combinedLayout = props.data.barLayout;
+  combinedLayout.width = 600;
   return (
     <OuterCard>
       <Card>
@@ -9,6 +14,9 @@ const SocialChart = (props) => {
       </Card>
       <Card>
         <Chart data={props.data.lineData} chartlayout={props.data.lineLayout} />
+      </Card>
+      <Card>
+        <Chart data={combineData} chartlayout={combinedLayout} />
       </Card>
     </OuterCard>
   );
