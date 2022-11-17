@@ -1,11 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
 import mytwitterData from "./json/twitter_api_response (2).json";
 import facebookSentiment from "./json/facebook_sentiment.json";
+import linkedInData from "./json/linkedin_data_for test (2).json";
 import { getTimelineData } from "./func/getTimelineData";
 import { getBarChartData } from "./func/BarData";
 import { getLineChartData } from "./func/LineData";
 import { barlayout, lineLayout } from "./func/layout";
 import SocialChart from "./ui/SocialChart";
+// import mapData from "./func/MapData";
+// import MapChart from "./ui/MapChart";
 
 export default function App() {
   const [twitterData, setTwitterData] = useState({
@@ -23,6 +26,8 @@ export default function App() {
   });
 
   useEffect(() => {
+    // let say we are using fetch to get the alltwitterData and allfacebookdata
+    // using useEffect we can transform the data.
     const allTwitterData = getTimelineData(
       mytwitterData.stats.twitter.timelineStats.timeline,
       "twitter"
@@ -43,6 +48,10 @@ export default function App() {
     );
     const twitterLinelayout = lineLayout("Twitter Mean Sentiment Timeline");
     const facebooklinelayout = lineLayout("Facebook Mean Sentiment Timeline");
+    console.log(
+      linkedInData.stats.linkedin.timelineStats.organisationFollowersLifetime[0]
+        .followers_split.followerCountsByRegion
+    );
 
     setTwitterData({
       barData: twitterbardata,
@@ -63,6 +72,7 @@ export default function App() {
     <>
       <SocialChart data={twitterData} />
       <SocialChart data={facebookData} />
+      {/* <MapChart /> */}
     </>
   );
 }
